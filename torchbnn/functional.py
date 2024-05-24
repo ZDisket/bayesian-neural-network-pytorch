@@ -38,7 +38,7 @@ def bayesian_kl_loss(model, reduction='mean', last_layer_only=False) :
     n = torch.Tensor([0]).to(device)
 
     for m in model.modules() :
-        if isinstance(m, (BayesLinear, BayesConv2d)):
+        if isinstance(m, (BayesLinear, BayesConv2d, BayesConv1d)):
             kl = _kl_loss(m.weight_mu, m.weight_log_sigma, m.prior_mu, m.prior_log_sigma)
             kl_sum += kl
             n += len(m.weight_mu.view(-1))

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from ..modules import *
 
-bayes_layer = (BayesLinear, BayesConv2d, BayesBatchNorm2d)  
+bayes_layer = (BayesLinear, BayesConv2d, BayesConv1d, BayesBatchNorm2d)
 
 def freeze(module):
     """
