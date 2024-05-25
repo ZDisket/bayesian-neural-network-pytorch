@@ -7,6 +7,8 @@ import torch.nn.functional as F
 
 from torch.nn.modules.utils import _single, _pair, _triple
 
+def ensure_tuple(value):
+    return value if isinstance(value, tuple) else (value,)
 
 class _BayesConvNd(Module):
     r"""
@@ -45,6 +47,7 @@ class _BayesConvNd(Module):
         self.prior_mu = prior_mu
         self.prior_sigma = prior_sigma
         self.prior_log_sigma = math.log(prior_sigma)
+
                 
         if transposed:
             self.weight_mu = Parameter(torch.Tensor(
@@ -195,10 +198,10 @@ class BayesConv1d(_BayesConvNd):
 
     def __init__(self, prior_mu, prior_sigma, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1,
                  groups=1, bias=True, padding_mode='zeros'):
-        kernel_size = (kernel_size,)
-        stride = (stride,)
-        padding = (padding,)
-        dilation = (dilation,)
+        kernel_size = ensure_tuple(kernel_size)
+        stride = ensure_tuple(stride)
+        padding = ensure_tuple(padding)
+        dilation = ensure_tuple(dilation)
         super(BayesConv1d, self).__init__(
             prior_mu, prior_sigma, in_channels, out_channels, kernel_size, stride,
             padding, dilation, False, (0,), groups, bias, padding_mode)
